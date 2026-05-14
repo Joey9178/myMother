@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给妈妈的爱心网站 - 王焯宇Joey制作</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 50%, #f8b500 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 0;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .form-section {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ff6b9d;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255,107,157,0.1);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #c44569;
+            background: white;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255,107,157,0.4);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .game-section {
+            display: none;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+
+        .game-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ff6b9d;
+        }
+
+        .game-title {
+            font-size: 1.5rem;
+            color: #c44569;
+        }
+
+        .game-progress {
+            display: flex;
+            gap: 10px;
+        }
+
+        .progress-dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: #ff6b9d;
+            box-shadow: 0 0 10px #ff6b9d;
+        }
+
+        .progress-dot.completed {
+            background: #4CAF50;
+            box-shadow: 0 0 10px #4CAF50;
+        }
+
+        .game-area {
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .game1-content {
+            text-align: center;
+        }
+
+        .game1-content h3 {
+            color: #c44569;
+            margin-bottom: 20px;
+        }
+
+        .memory-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .memory-card {
+            width: 80px;
+            height: 80px;
+            perspective: 1000px;
+            cursor: pointer;
+        }
+
+        .card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+
+        .card-inner.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-front,
+        .card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+        }
+
+        .card-front {
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+        }
+
+        .card-back {
+            background: white;
+            border: 2px solid #ff6b9d;
+            transform: rotateY(180deg);
+        }
+
+        .game2-content {
+            text-align: center;
+        }
+
+        .ball-container {
+            width: 300px;
+            height: 200px;
+            border: 3px solid #ff6b9d;
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(180deg, #fff5f8 0%, #ffe4eb 100%);
+        }
+
+        .ball {
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, #ff6b9d 0%, #c44569 100%);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: grab;
+            box-shadow: 0 4px 15px rgba(255,107,157,0.5);
+        }
+
+        .ball:active {
+            cursor: grabbing;
+        }
+
+        .target-hole {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #4CAF50;
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.3);
+        }
+
+        .game3-content {
+            text-align: center;
+        }
+
+        .math-question {
+            font-size: 2rem;
+            color: #c44569;
+            margin-bottom: 20px;
+        }
+
+        .math-input {
+            width: 100px;
+            padding: 15px;
+            font-size: 2rem;
+            text-align: center;
+            border: 3px solid #ff6b9d;
+            border-radius: 10px;
+            margin-right: 10px;
+        }
+
+        .math-input:focus {
+            outline: none;
+            border-color: #c44569;
+        }
+
+        .game4-content {
+            text-align: center;
+        }
+
+        .countdown-display {
+            font-size: 3rem;
+            color: #c44569;
+            margin-bottom: 20px;
+        }
+
+        .click-button {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ff6b9d 0%, #c44569 100%);
+            color: white;
+            font-size: 2rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 10px 30px rgba(255,107,157,0.5);
+        }
+
+        .click-button:hover {
+            transform: scale(1.1);
+        }
+
+        .click-button:active {
+            transform: scale(0.95);
+        }
+
+        .click-count {
+            font-size: 1.5rem;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            background: #4CAF50;
+            color: white;
+            border-radius: 10px;
+            margin-top: 20px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .heart-celebration {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,107,157,0.95) 0%, rgba(196,69,105,0.95) 50%, rgba(255,186,0,0.95) 100%);
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+        .floating-heart {
+            position: absolute;
+            animation: float 3s ease-in-out infinite;
+            font-size: 24px;
+            pointer-events: none;
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0) rotate(0deg) scale(1); 
+                opacity: 1; 
+            }
+            50% { 
+                transform: translateY(-30px) rotate(15deg) scale(1.1); 
+                opacity: 0.9; 
+            }
+        }
+
+        @keyframes floatUp {
+            0% { 
+                transform: translateY(100vh) rotate(0deg); 
+                opacity: 0; 
+            }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { 
+                transform: translateY(-100px) rotate(720deg); 
+                opacity: 0; 
+            }
+        }
+
+        .heart3d-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            perspective: 1200px;
+        }
+
+        .heart3d {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: rotate3d 15s linear infinite;
+            cursor: grab;
+            filter: drop-shadow(0 0 30px rgba(255,107,157,0.9));
+        }
+
+        .heart3d:hover {
+            filter: drop-shadow(0 0 50px rgba(255,107,157,1));
+        }
+
+        .heart3d:active {
+            cursor: grabbing;
+            animation-play-state: paused;
+        }
+
+        @keyframes rotate3d {
+            from { transform: rotateY(0deg) rotateX(10deg); }
+            to { transform: rotateY(360deg) rotateX(10deg); }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { 
+                filter: drop-shadow(0 0 30px rgba(255,107,157,0.9));
+                transform: scale(1);
+            }
+            50% { 
+                filter: drop-shadow(0 0 50px rgba(255,107,157,1));
+                transform: scale(1.05);
+            }
+        }
+
+        .heart-main {
+            width: 280px;
+            height: 280px;
+            position: relative;
+            transform-style: preserve-3d;
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+
+        .heart-face {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(135deg, #ff8fab 0%, #ff6b9d 30%, #c44569 70%, #a83279 100%);
+            clip-path: polygon(50% 95%, 5% 40%, 20% 40%, 30% 55%, 40% 35%, 50% 50%, 60% 35%, 70% 55%, 80% 40%, 95% 40%);
+            opacity: 0.95;
+            box-shadow: 
+                inset 0 0 40px rgba(255,255,255,0.3),
+                inset 0 -20px 40px rgba(0,0,0,0.1),
+                0 0 30px rgba(255,107,157,0.5);
+        }
+
+        .heart-face.front { 
+            transform: translateZ(70px); 
+            background: linear-gradient(135deg, #ffb3c6 0%, #ff8fab 30%, #ff6b9d 70%, #c44569 100%);
+        }
+        .heart-face.back { 
+            transform: rotateY(180deg) translateZ(70px); 
+            background: linear-gradient(135deg, #c44569 0%, #a83279 50%, #8b256b 100%);
+        }
+        .heart-face.left { 
+            transform: rotateY(-90deg) translateZ(70px); 
+            background: linear-gradient(90deg, #ff6b9d 0%, #c44569 50%, #a83279 100%);
+        }
+        .heart-face.right { 
+            transform: rotateY(90deg) translateZ(70px); 
+            background: linear-gradient(-90deg, #ff6b9d 0%, #c44569 50%, #a83279 100%);
+        }
+        .heart-face.top { 
+            transform: rotateX(90deg) translateZ(70px); 
+            clip-path: polygon(50% 50%, 10% 90%, 90% 90%);
+            background: linear-gradient(180deg, #ffb3c6 0%, #ff8fab 50%, #ff6b9d 100%);
+        }
+        .heart-face.bottom { 
+            transform: rotateX(-90deg) translateZ(70px); 
+            clip-path: polygon(50% 50%, 10% 10%, 90% 10%);
+            background: linear-gradient(0deg, #a83279 0%, #c44569 50%, #ff6b9d 100%);
+        }
+
+        .heart-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, rgba(255,200,220,0.6) 50%, transparent 70%);
+            border-radius: 50%;
+            z-index: 10;
+            animation: sparkle 1.5s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1); }
+            50% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        .heart-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255,107,157,0.4) 0%, rgba(255,107,157,0.1) 50%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+            animation: glowPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.8; }
+        }
+
+        .celebration-text {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 2.2rem;
+            text-align: center;
+            text-shadow: 
+                0 0 10px rgba(255,107,157,1),
+                0 0 20px rgba(255,107,157,0.8),
+                0 0 30px rgba(255,107,157,0.6),
+                2px 2px 4px rgba(0,0,0,0.3);
+            animation: textGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes textGlow {
+            0%, 100% { 
+                text-shadow: 
+                    0 0 10px rgba(255,107,157,1),
+                    0 0 20px rgba(255,107,157,0.8),
+                    0 0 30px rgba(255,107,157,0.6),
+                    2px 2px 4px rgba(0,0,0,0.3);
+            }
+            50% { 
+                text-shadow: 
+                    0 0 20px rgba(255,107,157,1),
+                    0 0 40px rgba(255,107,157,0.9),
+                    0 0 60px rgba(255,107,157,0.7),
+                    2px 2px 4px rgba(0,0,0,0.3);
+            }
+        }
+
+        .celebration-subtitle {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255,255,255,0.9);
+            font-size: 1.3rem;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255,107,157,0.8);
+        }
+
+        .info-display {
+            display: none;
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-top: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .info-display h2 {
+            color: #c44569;
+            margin-bottom: 20px;
+        }
+
+        .info-display p {
+            font-size: 1.2rem;
+            color: #666;
+            line-height: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💕 给妈妈的爱心网站 💕</h1>
+            <p>作者：王焯宇 Joey</p>
+        </div>
+
+        <div class="form-section" id="formSection">
+            <h2 style="color: #c44569; margin-bottom: 20px; text-align: center;">请填写妈妈的信息</h2>
+            
+            <div class="form-group">
+                <label for="momName">妈妈的名字</label>
+                <input type="text" id="momName" placeholder="请输入妈妈的名字">
+            </div>
+
+            <div class="form-group">
+                <label for="momAge">妈妈的年龄</label>
+                <input type="number" id="momAge" placeholder="请输入妈妈的年龄">
+            </div>
+
+            <div class="form-group">
+                <label for="momBirthday">妈妈的生日</label>
+                <input type="date" id="momBirthday">
+            </div>
+
+            <div class="form-group">
+                <label for="momFavorite">妈妈最喜欢的颜色</label>
+                <select id="momFavorite">
+                    <option value="">请选择</option>
+                    <option value="red">红色</option>
+                    <option value="pink">粉色</option>
+                    <option value="purple">紫色</option>
+                    <option value="blue">蓝色</option>
+                    <option value="yellow">黄色</option>
+                    <option value="green">绿色</option>
+                </select>
+            </div>
+
+            <button class="btn" onclick="checkInfo()">开始游戏</button>
+        </div>
+
+        <div class="info-display" id="infoDisplay">
+            <h2>🎉 信息确认成功！</h2>
+            <p id="infoText"></p>
+            <button class="btn" onclick="startGames()" style="margin-top: 20px;">开始挑战游戏</button>
+        </div>
+
+        <div class="game-section" id="gameSection">
+            <div class="game-header">
+                <div class="game-title" id="gameTitle">游戏 1：记忆配对</div>
+                <div class="game-progress">
+                    <div class="progress-dot active" id="dot1"></div>
+                    <div class="progress-dot" id="dot2"></div>
+                    <div class="progress-dot" id="dot3"></div>
+                    <div class="progress-dot" id="dot4"></div>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <div class="game1-content" id="game1">
+                    <h3>请找出所有相同的爱心配对！</h3>
+                    <div class="memory-cards" id="memoryCards"></div>
+                    <button class="btn" id="game1Btn" style="display: none;" onclick="nextGame()">进入下一关</button>
+                </div>
+
+                <div class="game2-content" id="game2" style="display: none;">
+                    <h3>请把爱心球拖到绿色的洞里！</h3>
+                    <div class="ball-container">
+                        <div class="ball" id="ball"></div>
+                        <div class="target-hole"></div>
+                    </div>
+                    <button class="btn" id="game2Btn" style="display: none;" onclick="nextGame()">进入下一关</button>
+                </div>
+
+                <div class="game3-content" id="game3" style="display: none;">
+                    <h3>数学题挑战！</h3>
+                    <div class="math-question" id="mathQuestion"></div>
+                    <input type="number" class="math-input" id="mathAnswer">
+                    <button class="btn" onclick="checkMathAnswer()">提交答案</button>
+                    <div class="success-message" id="game3Success">🎉 答对了！</div>
+                    <button class="btn" id="game3Btn" style="display: none;" onclick="nextGame()">进入下一关</button>
+                </div>
+
+                <div class="game4-content" id="game4" style="display: none;">
+                    <h3>30秒内点击爱心100次！</h3>
+                    <div class="countdown-display" id="countdown">30</div>
+                    <button class="click-button" onclick="countClick()">💕</button>
+                    <div class="click-count" id="clickCount">点击次数：0</div>
+                    <button class="btn" id="game4Btn" style="display: none;" onclick="showCelebration()">完成挑战！</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="heart-celebration" id="celebration">
+        <div class="heart3d-container" id="heart3dContainer">
+            <div class="heart-glow"></div>
+            <div class="heart3d" id="heart3d">
+                <div class="heart-face front"></div>
+                <div class="heart-face back"></div>
+                <div class="heart-face left"></div>
+                <div class="heart-face right"></div>
+                <div class="heart-face top"></div>
+                <div class="heart-face bottom"></div>
+                <div class="heart-center"></div>
+            </div>
+        </div>
+        <div class="celebration-text">
+            <p>🎊 恭喜妈妈通关所有游戏！ 🎊</p>
+            <p>我爱你，妈妈！💕</p>
+        </div>
+        <div class="celebration-subtitle">
+            拖动爱心可以旋转哦！💕
+        </div>
+    </div>
+
+    <script>
+        let currentGame = 0;
+        let flippedCards = [];
+        let matchedPairs = 0;
+        let clickCount = 0;
+        let countdown = 30;
+        let countdownInterval;
+        let mathAnswer = 0;
+        let isDragging = false;
+        let momInfo = {};
+
+        const loveIcons = ['💕', '💖', '💗', '💓', '💘', '💝', '💞', '💟'];
+
+        function checkInfo() {
+            momInfo.name = document.getElementById('momName').value;
+            momInfo.age = document.getElementById('momAge').value;
+            momInfo.birthday = document.getElementById('momBirthday').value;
+            momInfo.favorite = document.getElementById('momFavorite').value;
+
+            if (!momInfo.name || !momInfo.age || !momInfo.birthday || !momInfo.favorite) {
+                alert('请填写完整的信息！');
+                return;
+            }
+
+            document.getElementById('formSection').style.display = 'none';
+            
+            const infoText = `
+                妈妈的名字：${momInfo.name}<br>
+                妈妈的年龄：${momInfo.age}岁<br>
+                妈妈的生日：${momInfo.birthday}<br>
+                妈妈最喜欢的颜色：${getColorName(momInfo.favorite)}<br><br>
+                信息确认正确！准备好开始游戏了吗？
+            `;
+            document.getElementById('infoText').innerHTML = infoText;
+            document.getElementById('infoDisplay').style.display = 'block';
+        }
+
+        function getColorName(color) {
+            const colors = {
+                'red': '红色',
+                'pink': '粉色',
+                'purple': '紫色',
+                'blue': '蓝色',
+                'yellow': '黄色',
+                'green': '绿色'
+            };
+            return colors[color] || color;
+        }
+
+        function startGames() {
+            document.getElementById('infoDisplay').style.display = 'none';
+            document.getElementById('gameSection').style.display = 'block';
+            initGame1();
+        }
+
+        function initGame1() {
+            const cards = [...loveIcons, ...loveIcons];
+            shuffleArray(cards);
+            
+            const memoryCards = document.getElementById('memoryCards');
+            memoryCards.innerHTML = '';
+            
+            cards.forEach((icon, index) => {
+                const card = document.createElement('div');
+                card.className = 'memory-card';
+                card.innerHTML = `
+                    <div class="card-inner" data-icon="${icon}" data-index="${index}">
+                        <div class="card-front">?</div>
+                        <div class="card-back">${icon}</div>
+                    </div>
+                `;
+                card.addEventListener('click', flipCard);
+                memoryCards.appendChild(card);
+            });
+            
+            flippedCards = [];
+            matchedPairs = 0;
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function flipCard(e) {
+            const cardInner = e.currentTarget.querySelector('.card-inner');
+            if (cardInner.classList.contains('flipped')) return;
+            if (flippedCards.length >= 2) return;
+
+            cardInner.classList.add('flipped');
+            flippedCards.push(cardInner);
+
+            if (flippedCards.length === 2) {
+                checkMatch();
+            }
+        }
+
+        function checkMatch() {
+            const [card1, card2] = flippedCards;
+            const icon1 = card1.dataset.icon;
+            const icon2 = card2.dataset.icon;
+
+            if (icon1 === icon2) {
+                matchedPairs++;
+                flippedCards = [];
+                
+                if (matchedPairs === loveIcons.length) {
+                    document.getElementById('game1Btn').style.display = 'block';
+                }
+            } else {
+                setTimeout(() => {
+                    card1.classList.remove('flipped');
+                    card2.classList.remove('flipped');
+                    flippedCards = [];
+                }, 1000);
+            }
+        }
+
+        function nextGame() {
+            currentGame++;
+            
+            document.getElementById(`game${currentGame}`).style.display = 'none';
+            document.getElementById(`game${currentGame}Btn`).style.display = 'none';
+            
+            if (currentGame === 1) {
+                document.getElementById('dot1').className = 'progress-dot completed';
+                document.getElementById('dot2').className = 'progress-dot active';
+                document.getElementById('gameTitle').textContent = '游戏 2：拖拖乐';
+                initGame2();
+            } else if (currentGame === 2) {
+                document.getElementById('dot2').className = 'progress-dot completed';
+                document.getElementById('dot3').className = 'progress-dot active';
+                document.getElementById('gameTitle').textContent = '游戏 3：数学挑战';
+                initGame3();
+            } else if (currentGame === 3) {
+                document.getElementById('dot3').className = 'progress-dot completed';
+                document.getElementById('dot4').className = 'progress-dot active';
+                document.getElementById('gameTitle').textContent = '游戏 4：爱心点击';
+                initGame4();
+            }
+        }
+
+        function initGame2() {
+            document.getElementById('game2').style.display = 'block';
+            const ball = document.getElementById('ball');
+            ball.style.left = '50%';
+            ball.style.top = '50%';
+            
+            ball.addEventListener('mousedown', startDrag);
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('mouseup', stopDrag);
+        }
+
+        function startDrag(e) {
+            isDragging = true;
+            const ball = document.getElementById('ball');
+            const rect = document.querySelector('.ball-container').getBoundingClientRect();
+            ball.offsetX = e.clientX - rect.left - ball.offsetLeft;
+            ball.offsetY = e.clientY - rect.top - ball.offsetTop;
+        }
+
+        function drag(e) {
+            if (!isDragging) return;
+            
+            const ball = document.getElementById('ball');
+            const container = document.querySelector('.ball-container');
+            const rect = container.getBoundingClientRect();
+            
+            let x = e.clientX - rect.left - ball.offsetX;
+            let y = e.clientY - rect.top - ball.offsetY;
+            
+            x = Math.max(0, Math.min(x, rect.width - ball.offsetWidth));
+            y = Math.max(0, Math.min(y, rect.height - ball.offsetHeight));
+            
+            ball.style.left = x + 'px';
+            ball.style.top = y + 'px';
+            
+            checkBallPosition();
+        }
+
+        function stopDrag() {
+            isDragging = false;
+        }
+
+        function checkBallPosition() {
+            const ball = document.getElementById('ball');
+            const hole = document.querySelector('.target-hole');
+            
+            const ballRect = ball.getBoundingClientRect();
+            const holeRect = hole.getBoundingClientRect();
+            const containerRect = document.querySelector('.ball-container').getBoundingClientRect();
+            
+            const ballCenterX = (ball.offsetLeft + ball.offsetWidth / 2);
+            const ballCenterY = (ball.offsetTop + ball.offsetHeight / 2);
+            const holeCenterX = (hole.offsetLeft + hole.offsetWidth / 2);
+            const holeCenterY = (hole.offsetTop + hole.offsetHeight / 2);
+            
+            const distance = Math.sqrt(
+                Math.pow(ballCenterX - holeCenterX, 2) + 
+                Math.pow(ballCenterY - holeCenterY, 2)
+            );
+            
+            if (distance < 30) {
+                document.getElementById('game2Btn').style.display = 'block';
+            }
+        }
+
+        function initGame3() {
+            document.getElementById('game3').style.display = 'block';
+            document.getElementById('game3Success').style.display = 'none';
+            document.getElementById('game3Btn').style.display = 'none';
+            document.getElementById('mathAnswer').value = '';
+            
+            const num1 = Math.floor(Math.random() * 20) + 1;
+            const num2 = Math.floor(Math.random() * 20) + 1;
+            mathAnswer = num1 + num2;
+            
+            document.getElementById('mathQuestion').textContent = `${num1} + ${num2} = ?`;
+        }
+
+        function checkMathAnswer() {
+            const userAnswer = parseInt(document.getElementById('mathAnswer').value);
+            
+            if (userAnswer === mathAnswer) {
+                document.getElementById('game3Success').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('game3Btn').style.display = 'block';
+                }, 1000);
+            } else {
+                alert('再试试！');
+            }
+        }
+
+        function initGame4() {
+            document.getElementById('game4').style.display = 'block';
+            document.getElementById('game4Btn').style.display = 'none';
+            clickCount = 0;
+            countdown = 30;
+            
+            document.getElementById('clickCount').textContent = `点击次数：${clickCount}`;
+            document.getElementById('countdown').textContent = countdown;
+            
+            countdownInterval = setInterval(() => {
+                countdown--;
+                document.getElementById('countdown').textContent = countdown;
+                
+                if (countdown <= 0) {
+                    clearInterval(countdownInterval);
+                    if (clickCount >= 100) {
+                        document.getElementById('game4Btn').style.display = 'block';
+                    } else {
+                        alert('时间到！再试一次吧！');
+                        initGame4();
+                    }
+                }
+            }, 1000);
+        }
+
+        function countClick() {
+            clickCount++;
+            document.getElementById('clickCount').textContent = `点击次数：${clickCount}`;
+            
+            if (clickCount >= 100) {
+                clearInterval(countdownInterval);
+                document.getElementById('game4Btn').style.display = 'block';
+            }
+        }
+
+        function showCelebration() {
+            document.getElementById('gameSection').style.display = 'none';
+            document.getElementById('celebration').style.display = 'block';
+            
+            createFloatingHearts();
+            init3DHeartRotation();
+        }
+
+        function createFloatingHearts() {
+            const celebration = document.getElementById('celebration');
+            const heartIcons = ['💕', '💖', '💗', '💓', '💘', '💝', '💞', '💟', '❤️'];
+            
+            for (let i = 0; i < 80; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart';
+                heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.top = Math.random() * 100 + '%';
+                heart.style.fontSize = (Math.random() * 25 + 12) + 'px';
+                heart.style.animationDelay = Math.random() * 3 + 's';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.opacity = Math.random() * 0.5 + 0.5;
+                heart.style.animation = `float ${Math.random() * 3 + 2}s ease-in-out infinite`;
+                heart.style.animationDelay = Math.random() * 3 + 's';
+                celebration.appendChild(heart);
+            }
+            
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'floating-heart';
+                    heart.textContent = heartIcons[Math.floor(Math.random() * heartIcons.length)];
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.top = '100%';
+                    heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                    heart.style.animation = `floatUp ${Math.random() * 4 + 3}s ease-out forwards`;
+                    heart.style.animationDelay = '0s';
+                    celebration.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 7000);
+                }, i * 200);
+            }
+        }
+
+        function init3DHeartRotation() {
+            const heart3d = document.getElementById('heart3d');
+            let rotateX = 15;
+            let rotateY = 0;
+            let isMouseDown = false;
+            let startX = 0;
+            let startY = 0;
+
+            heart3d.addEventListener('mousedown', (e) => {
+                isMouseDown = true;
+                startX = e.clientX;
+                startY = e.clientY;
+            });
+
+            document.addEventListener('mousemove', (e) => {
+                if (!isMouseDown) return;
+                
+                const deltaX = e.clientX - startX;
+                const deltaY = e.clientY - startY;
+                
+                rotateY += deltaX * 0.5;
+                rotateX -= deltaY * 0.5;
+                
+                heart3d.style.transform = `rotateY(${rotateY}deg) rotateX(${rotateX}deg)`;
+                
+                startX = e.clientX;
+                startY = e.clientY;
+            });
+
+            document.addEventListener('mouseup', () => {
+                isMouseDown = false;
+            });
+        }
+    </script>
+</body>
+</html>
